@@ -11,7 +11,8 @@ namespace dwnldr
     public class Program
     {
         public static string Url = @"https://download.microsoft.com/download/5/8/9/589A8843-BA4D-4E63-BCB2-B2380E5556FD/vs2015.pro_enu.iso";
-        public static String ExpectedSha1 = @"068BA9EF07A765BF24ACA3A4F184C5E1085E5620";
+        public static String ExpectedSha1 = @"e01f364c3f21cdfcebb25d3c028398741f08eb24";
+        //                               fciv ecd2da7c1c81ace418c7e9563c93123f
         public static String FileName = @"vs2015.pro_enu.iso";
         public static Int32 RewindBytes = 1024;
 
@@ -19,6 +20,8 @@ namespace dwnldr
         {
             FileSize Size = DetermineDownloadSize();
             FileSize BytesRead = DetermineBytesAlreadyDownloaded();
+
+            ExpectedSha1 = ExpectedSha1.ToLowerInvariant();
 
             if (BytesRead.Equals(Size))
             {
@@ -121,12 +124,14 @@ namespace dwnldr
         {
             Console.WriteLine("Confirming Integrity!");
             String sha1 = CalculateSha1();
+            Console.WriteLine("File SHA1 is {0}", sha1);
             if (ExpectedSha1.Equals(sha1))
             {
                 Console.WriteLine("Success!!!");
             }
             else
             {
+                Console.WriteLine("Expected sha1 was {0}", ExpectedSha1);
                 Console.WriteLine("FAIL!!!!!!");
             }
         }
